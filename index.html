@@ -9,7 +9,7 @@
     <script>
       (function () {
         const params = new URLSearchParams(window.location.search);
-        const raw = params.get("url") || "";
+        const raw = params.get("urls") || "";
         const urls = raw
           .split(",")
           .map((url) => url.trim())
