@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Open URLs</title>
+  </head>
+  <body>
+    <script>
+      (function () {
+        const params = new URLSearchParams(window.location.search);
+        const raw = params.get("url") || "";
+        const urls = raw
+          .split(",")
+          .map((url) => url.trim())
+          .filter(Boolean);
+        const reverse = params.get("reverse") === "true";
+        const targetUrls = reverse ? [...urls].reverse() : urls;
+
+        // URLを画面に表示する
+        const fragment = document.createDocumentFragment();
+        for (const url of targetUrls) {
+          const line = document.createElement("div");
+          const link = document.createElement("a");
+          link.href = url;
+          link.textContent = url;
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+          line.appendChild(link);
+          fragment.appendChild(line);
+        }
+        document.body.appendChild(fragment);
+
+        // URLを開く
+        for (const url of targetUrls) {
+          window.open(url, "_blank", "noopener,noreferrer");
+        }
+
+        // 自分自身のウィンドウを閉じる (効かないかも)
+        window.open("", "_self");
+        window.close();
+      })();
+    </script>
+  </body>
+</html>
